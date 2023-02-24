@@ -21,7 +21,7 @@ ul li {
   align-items: center;
 }
 ul li:hover {
-  background: #f3f3f3;
+  background: lightcyan;
 }
 #list input {
   padding: 0;
@@ -41,7 +41,7 @@ ul li:hover {
   content:'';
   -webkit-appearance: none;
   background-color: transparent;
-  border: 2px solid #0079bf;
+  border: 2px solid #c40616;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
   padding: 10px;
   display: inline-block;
@@ -94,3 +94,30 @@ h1 {
     margin-left: 2px;
     color: gray;
 }
+.notification {
+  position: fixed;
+  top: 2;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #8bb1c8;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  } 
+  footer {
+    background-color: #f8f8f8;
+    padding: 20px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  footer p {
+    margin: 0;
+    font-size: 14px;
+    color: #999;
+  }
+  

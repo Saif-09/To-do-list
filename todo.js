@@ -9,11 +9,11 @@ function addTaskToDOM(task) {
     const li = document.createElement('li');
     li.innerHTML = `<input type="checkbox" id="${task.id}" ${task.done? 'checked' : ' '} class="custom-checkbox">
     <label for="${task.id}">${task.text}</label>
-    <img src="bin.svg" class="delete" data-id="${task.id}" />`;
+    <img src="th.jpeg" class="delete" data-id="${task.id}" />`;
     tasksList.append(li);
 }
 
-function renderList(task) { 
+function renderList() { 
     tasksList.innerHTML ='';
 
 
@@ -80,6 +80,29 @@ function handleInputKeypress(e){
     }
  } //this function will handle the values that we are typing in the text box 
 
+ function handleClickEvent(e) {
+    const target = e.target;
+    if(target.className === 'delete'){
+        const taskId = target.dataset.id;
+        deleteTask(taskId);
+    }else if (target.className==='custom-checkbox') {
+        const taskId = target.id;
+        toggleTask(taskId);
+        return;
+    }
+ }
+ function showNotification(message) {
+    const notification = document.createElement("div");
+    notification.className = "notification";
+    notification.innerText = message;
+    document.body.append(notification);
+    setTimeout(function(){
+        notification.remove();
+    }, 1800);
+}
+ function initializeApp(){
 addTaskInput.addEventListener('keyup', handleInputKeypress); //keyup is an event in JavaScript that is triggered when a key on the keyboard is released after being pressed down. In the given code, someFunction will be executed when the user releases a key on the keyboard while typing in the someId input field
-
+document.addEventListener('click', handleClickEvent);//click is an event in JS that is triggered when someone clicks any where the event is linked with click.
+ }
+ initializeApp();
 
