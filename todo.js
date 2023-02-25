@@ -5,6 +5,7 @@ const tasksList = document.getElementById('list');
 const addTaskInput = document.getElementById('add');
 const tasksCounter = document.getElementById('tasks-counter');
 
+
 function addTaskToDOM(task) {
     const li = document.createElement('li');
     li.innerHTML = `<input type="checkbox" id="${task.id}" ${task.done? 'checked' : ' '} class="custom-checkbox">
@@ -21,21 +22,33 @@ function renderList() {
         addTaskToDOM(tasks[i]);
     }
     tasksCounter.innerHTML = tasks.length;
+    saveTasksToLocalStorage();
 
 } //this function will be used for rendering all the tasks
 
-function toggleTask(taskId) {
-    const task = tasks.filter(function(task){
-        return task.id===taskId;
-    });
-    if(task.length>0){
-        const currentTask = tasks[0];
-        currentTask.done = !currentTask.done;
+function saveTasksToLocalStorage(){
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+function getTasksFromLocalStorage(){
+    const tasksFromLocalStorage  = localStorage.getItem('tasks');
+    if(tasksFromLocalStorage){
+        tasks = JSON.parse(tasksFromLocalStorage);
         renderList();
-        showNotification("Tasks completed");
+    }
+}
+function toggleTask(taskId) {
+    const index = tasks.findIndex(function(task){
+        return task.id === taskId;
+    });
+    if(index !== -1){
+        const task = tasks[index];
+        task.done = !task.done;
+        renderList();
+        showNotification("Task completed");
         return;
     }
-    showNotification("Task not completed");
+    showNotification("Task not found");
  } //this function will be used for marking a task as completed, also this function takes task object as argument because when it will recv it then it can mark it as complete
 
 function deleteTask(taskId) {
@@ -45,6 +58,7 @@ function deleteTask(taskId) {
     tasks = newTasks;
     renderList();
     showNotification('Tasks has been successfully deleted');
+    saveTasksToLocalStorage();
  } //this function takes an taskId argument and delete the task that user want to delete
 
 function addTask(task) {
@@ -52,6 +66,7 @@ function addTask(task) {
         tasks.push(task);
         renderList();
         showNotification('Task added succesfully');
+        saveTasksToLocalStorage();
         return;
     }
         showNotification('Something went wrong');
@@ -101,6 +116,7 @@ function handleInputKeypress(e){
     }, 1800);
 }
  function initializeApp(){
+    getTasksFromLocalStorage();
 addTaskInput.addEventListener('keyup', handleInputKeypress); //keyup is an event in JavaScript that is triggered when a key on the keyboard is released after being pressed down. In the given code, someFunction will be executed when the user releases a key on the keyboard while typing in the someId input field
 document.addEventListener('click', handleClickEvent);//click is an event in JS that is triggered when someone clicks any where the event is linked with click.
  }
